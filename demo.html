@@ -1,0 +1,492 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>PricingCard Component Demo</title>
+    <style>
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            margin: 0;
+            padding: 20px;
+            background-color: #f5f5f5;
+            line-height: 1.6;
+        }
+
+        .demo-section {
+            margin: 40px 0;
+            padding: 30px;
+            background: white;
+            border-radius: 12px;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+        }
+
+        .demo-title {
+            font-size: 28px;
+            margin-bottom: 10px;
+            color: #333;
+            border-bottom: 3px solid #007bff;
+            padding-bottom: 10px;
+        }
+
+        .demo-description {
+            color: #666;
+            margin-bottom: 30px;
+            font-size: 16px;
+        }
+
+        .code-block {
+            background: #f8f9fa;
+            border: 1px solid #e9ecef;
+            border-radius: 6px;
+            padding: 20px;
+            margin: 20px 0;
+            overflow-x: auto;
+            font-family: 'Courier New', monospace;
+            font-size: 14px;
+        }
+
+        .controls {
+            margin: 20px 0;
+            padding: 20px;
+            background: #f8f9fa;
+            border-radius: 6px;
+        }
+
+        .controls button {
+            margin: 5px;
+            padding: 8px 16px;
+            border: none;
+            border-radius: 4px;
+            background: #007bff;
+            color: white;
+            cursor: pointer;
+            font-size: 14px;
+        }
+
+        .controls button:hover {
+            background: #0056b3;
+        }
+
+        .controls input, .controls select {
+            margin: 5px;
+            padding: 8px;
+            border: 1px solid #ddd;
+            border-radius: 4px;
+        }
+
+        #pricing-container-1,
+        #pricing-container-2,
+        #pricing-container-3,
+        #pricing-container-4 {
+            margin: 30px 0;
+            min-height: 100px;
+        }
+
+        .highlight {
+            background-color: #fff3cd;
+            padding: 15px;
+            border-left: 4px solid #ffc107;
+            margin: 20px 0;
+            border-radius: 0 6px 6px 0;
+        }
+    </style>
+</head>
+<body>
+    <h1 style="text-align: center; color: #333; margin-bottom: 10px;">PricingCard Component Demo</h1>
+    <p style="text-align: center; color: #666; margin-bottom: 40px;">
+        Interactive examples of the reusable pricing card component
+    </p>
+
+    <!-- Example 1: Basic Usage -->
+    <div class="demo-section">
+        <h2 class="demo-title">1. Basic Usage</h2>
+        <p class="demo-description">
+            Simple example showing how to create pricing cards with the reusable component.
+        </p>
+        
+        <div class="code-block">
+// Create a pricing card
+const card = new PricingCard({
+    title: "Basic Plan",
+    price: 9.99,
+    currency: "$",
+    period: "/month",
+    features: ["1 GB Storage", "Basic Support", "All Core Features"],
+    buttonText: "Start Trial",
+    onButtonClick: (data) => console.log('Selected:', data)
+});
+
+// Add to container
+document.getElementById('container').appendChild(card.render());
+        </div>
+
+        <div id="pricing-container-1"></div>
+    </div>
+
+    <!-- Example 2: Featured Card -->
+    <div class="demo-section">
+        <h2 class="demo-title">2. Featured Card with Multiple Plans</h2>
+        <p class="demo-description">
+            Multiple pricing cards with one marked as featured. The featured card has a special highlight.
+        </p>
+        
+        <div class="code-block">
+// Using PricingCardContainer for multiple cards
+const container = new PricingCardContainer(document.getElementById('container'));
+
+// Add multiple cards
+container.addCard({
+    title: "Basic",
+    price: 9.99,
+    features: ["1 GB Storage", "Basic Support"]
+});
+
+container.addCard({
+    title: "Pro",
+    price: 19.99,
+    featured: true,  // This will be highlighted
+    features: ["10 GB Storage", "Priority Support", "Advanced Analytics"]
+});
+        </div>
+
+        <div id="pricing-container-2"></div>
+    </div>
+
+    <!-- Example 3: Dynamic Updates -->
+    <div class="demo-section">
+        <h2 class="demo-title">3. Dynamic Updates</h2>
+        <p class="demo-description">
+            Demonstrating how to update pricing cards dynamically using the built-in methods.
+        </p>
+
+        <div class="controls">
+            <input type="number" id="new-price" placeholder="New Price" value="15.99" step="0.01">
+            <button onclick="updatePrice()">Update Price</button>
+            
+            <input type="text" id="new-title" placeholder="New Title" value="Updated Plan">
+            <button onclick="updateTitle()">Update Title</button>
+            
+            <button onclick="toggleFeatured()">Toggle Featured</button>
+            <button onclick="addFeature()">Add Feature</button>
+        </div>
+
+        <div class="code-block">
+// Update methods available:
+card.updatePrice(15.99);
+card.updateTitle("Updated Plan");
+card.setFeatured(true, "Best Value");
+card.updateFeatures(["New Feature 1", "New Feature 2"]);
+        </div>
+
+        <div id="pricing-container-3"></div>
+    </div>
+
+    <!-- Example 4: Custom Styling -->
+    <div class="demo-section">
+        <h2 class="demo-title">4. Custom Styling & Events</h2>
+        <p class="demo-description">
+            Cards with custom CSS classes and custom click handlers.
+        </p>
+
+        <div class="controls">
+            <select id="theme-select" onchange="changeTheme()">
+                <option value="">Default Theme</option>
+                <option value="dark-theme">Dark Theme</option>
+                <option value="colorful-theme">Colorful Theme</option>
+            </select>
+        </div>
+
+        <div class="code-block">
+// Custom styling with CSS classes
+const card = new PricingCard({
+    title: "Premium",
+    price: 29.99,
+    className: "dark-theme",  // Add custom CSS class
+    onButtonClick: (data) => {
+        // Custom click handler
+        showCustomModal(data);
+    }
+});
+        </div>
+
+        <div id="pricing-container-4"></div>
+
+        <style>
+            .dark-theme {
+                background: linear-gradient(135deg, #2c3e50, #34495e) !important;
+                color: white !important;
+                border: 2px solid #3498db !important;
+            }
+            
+            .dark-theme .pricing-title,
+            .dark-theme .pricing-features li {
+                color: white !important;
+            }
+            
+            .dark-theme .pricing-price {
+                color: #3498db !important;
+            }
+            
+            .dark-theme .pricing-btn {
+                background: linear-gradient(135deg, #3498db, #2980b9) !important;
+            }
+
+            .colorful-theme {
+                background: linear-gradient(135deg, #ff6b6b, #ee5a24) !important;
+                color: white !important;
+                border: 2px solid #ff9ff3 !important;
+            }
+            
+            .colorful-theme .pricing-title,
+            .colorful-theme .pricing-features li {
+                color: white !important;
+            }
+            
+            .colorful-theme .pricing-price {
+                color: #fff !important;
+            }
+            
+            .colorful-theme .pricing-btn {
+                background: linear-gradient(135deg, #ff9ff3, #f368e0) !important;
+            }
+        </style>
+    </div>
+
+    <div class="highlight">
+        <strong>Usage Tips:</strong>
+        <ul>
+            <li>Include the <code>PricingCard.js</code> file in your project</li>
+            <li>Use <code>new PricingCard(options)</code> for single cards</li>
+            <li>Use <code>PricingCardContainer</code> for managing multiple cards</li>
+            <li>All update methods work dynamically after rendering</li>
+            <li>Custom CSS classes can be added via the <code>className</code> option</li>
+            <li>Click handlers receive the full card data object</li>
+        </ul>
+    </div>
+
+    <script src="PricingCard.js"></script>
+    <script>
+        // Global variables for demo
+        let dynamicCard = null;
+        let customCards = [];
+
+        // Example 1: Basic Usage
+        function setupExample1() {
+            const container = document.getElementById('pricing-container-1');
+            
+            const basicCard = new PricingCard({
+                title: "Basic Plan",
+                price: 9.99,
+                currency: "$",
+                period: "/month",
+                features: [
+                    "1 GB Storage",
+                    "Basic Support", 
+                    "All Core Features",
+                    "Email Integration"
+                ],
+                buttonText: "Start Trial",
+                onButtonClick: (data) => {
+                    alert(`You selected: ${data.title} for ${data.currency}${data.price}${data.period}`);
+                }
+            });
+            
+            container.appendChild(basicCard.render());
+        }
+
+        // Example 2: Featured Cards
+        function setupExample2() {
+            const container = document.getElementById('pricing-container-2');
+            const cardContainer = new PricingCardContainer(container);
+
+            // Basic Plan
+            cardContainer.addCard({
+                title: "Basic",
+                price: 9.99,
+                currency: "$",
+                period: "/month",
+                features: [
+                    "1 GB Storage",
+                    "Basic Support",
+                    "Core Features"
+                ],
+                buttonText: "Start Trial",
+                onButtonClick: (data) => console.log('Basic plan selected:', data)
+            });
+
+            // Pro Plan (Featured)
+            cardContainer.addCard({
+                title: "Pro",
+                price: 19.99,
+                currency: "$",
+                period: "/month",
+                featured: true,
+                featuredLabel: "Most Popular",
+                features: [
+                    "10 GB Storage",
+                    "Priority Support",
+                    "All Features",
+                    "Advanced Analytics",
+                    "Team Collaboration"
+                ],
+                buttonText: "Start Trial",
+                onButtonClick: (data) => console.log('Pro plan selected:', data)
+            });
+
+            // Enterprise Plan
+            cardContainer.addCard({
+                title: "Enterprise",
+                price: 49.99,
+                currency: "$",
+                period: "/month",
+                features: [
+                    "Unlimited Storage",
+                    "24/7 Support",
+                    "All Features",
+                    "Custom Integrations",
+                    "Advanced Security",
+                    "Dedicated Manager"
+                ],
+                buttonText: "Contact Sales",
+                onButtonClick: (data) => console.log('Enterprise plan selected:', data)
+            });
+        }
+
+        // Example 3: Dynamic Updates
+        function setupExample3() {
+            const container = document.getElementById('pricing-container-3');
+            
+            dynamicCard = new PricingCard({
+                title: "Dynamic Plan",
+                price: 12.99,
+                currency: "$",
+                period: "/month",
+                features: [
+                    "Dynamic Feature 1",
+                    "Dynamic Feature 2",
+                    "Dynamic Feature 3"
+                ],
+                buttonText: "Subscribe Now",
+                onButtonClick: (data) => {
+                    console.log('Dynamic card clicked:', data);
+                    alert(`Selected: ${data.title} - ${data.currency}${data.price}${data.period}`);
+                }
+            });
+            
+            container.appendChild(dynamicCard.render());
+        }
+
+        // Example 4: Custom Styling
+        function setupExample4() {
+            const container = document.getElementById('pricing-container-4');
+            
+            const customCard = new PricingCard({
+                title: "Premium",
+                price: 29.99,
+                currency: "$",
+                period: "/month",
+                features: [
+                    "Premium Features",
+                    "Custom Styling",
+                    "Special Support",
+                    "Advanced Options"
+                ],
+                buttonText: "Get Premium",
+                className: "",
+                onButtonClick: (data) => {
+                    showCustomModal(data);
+                }
+            });
+            
+            customCards.push(customCard);
+            container.appendChild(customCard.render());
+        }
+
+        // Dynamic update functions
+        function updatePrice() {
+            const newPrice = parseFloat(document.getElementById('new-price').value);
+            if (dynamicCard && !isNaN(newPrice)) {
+                dynamicCard.updatePrice(newPrice);
+            }
+        }
+
+        function updateTitle() {
+            const newTitle = document.getElementById('new-title').value;
+            if (dynamicCard && newTitle.trim()) {
+                dynamicCard.updateTitle(newTitle);
+            }
+        }
+
+        function toggleFeatured() {
+            if (dynamicCard) {
+                const currentFeatured = dynamicCard.options.featured;
+                dynamicCard.setFeatured(!currentFeatured, currentFeatured ? "" : "Best Value");
+            }
+        }
+
+        function addFeature() {
+            if (dynamicCard) {
+                const currentFeatures = [...dynamicCard.options.features];
+                currentFeatures.push(`New Feature ${currentFeatures.length + 1}`);
+                dynamicCard.updateFeatures(currentFeatures);
+            }
+        }
+
+        function changeTheme() {
+            const theme = document.getElementById('theme-select').value;
+            if (customCards.length > 0) {
+                const card = customCards[0];
+                // Remove previous theme classes
+                card.element.className = card.element.className.replace(/dark-theme|colorful-theme/g, '').trim();
+                // Add new theme
+                if (theme) {
+                    card.element.classList.add(theme);
+                }
+            }
+        }
+
+        function showCustomModal(data) {
+            const modal = document.createElement('div');
+            modal.style.cssText = `
+                position: fixed;
+                top: 0;
+                left: 0;
+                width: 100%;
+                height: 100%;
+                background: rgba(0,0,0,0.8);
+                display: flex;
+                justify-content: center;
+                align-items: center;
+                z-index: 1000;
+            `;
+            
+            modal.innerHTML = `
+                <div style="background: white; padding: 30px; border-radius: 12px; max-width: 400px; text-align: center;">
+                    <h3>Plan Selected!</h3>
+                    <p><strong>Plan:</strong> ${data.title}</p>
+                    <p><strong>Price:</strong> ${data.currency}${data.price}${data.period}</p>
+                    <p><strong>Features:</strong></p>
+                    <ul style="text-align: left; margin: 0 auto; display: inline-block;">
+                        ${data.features.map(f => `<li>${f}</li>`).join('')}
+                    </ul>
+                    <button onclick="this.parentElement.parentElement.remove()" 
+                            style="margin-top: 20px; padding: 10px 20px; background: #007bff; color: white; border: none; border-radius: 6px; cursor: pointer;">
+                        Close
+                    </button>
+                </div>
+            `;
+            
+            document.body.appendChild(modal);
+        }
+
+        // Initialize all examples
+        document.addEventListener('DOMContentLoaded', function() {
+            setupExample1();
+            setupExample2();
+            setupExample3();
+            setupExample4();
+        });
+    </script>
+</body>
+</html>

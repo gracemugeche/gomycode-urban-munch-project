@@ -1,0 +1,322 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Pricing Card Component</title>
+    <style>
+        * {
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            margin: 0;
+            padding: 20px;
+            background-color: #f5f5f5;
+        }
+
+        .pricing-container {
+            display: flex;
+            gap: 20px;
+            justify-content: center;
+            flex-wrap: wrap;
+            max-width: 1200px;
+            margin: 0 auto;
+        }
+
+        .pricing-card {
+            width: 300px;
+            min-height: 400px;
+            background-color: #fff;
+            box-shadow: 0 4px 20px rgba(0, 0, 0, 0.1);
+            border-radius: 12px;
+            padding: 30px 20px;
+            text-align: center;
+            transition: transform 0.3s ease, box-shadow 0.3s ease;
+            border: 1px solid #e0e0e0;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .pricing-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 8px 30px rgba(0, 0, 0, 0.15);
+        }
+
+        .pricing-card.featured {
+            border: 2px solid #007bff;
+            position: relative;
+        }
+
+        .pricing-card.featured::before {
+            content: "Most Popular";
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            background: linear-gradient(135deg, #007bff, #0056b3);
+            color: white;
+            padding: 8px;
+            font-size: 12px;
+            font-weight: bold;
+            text-transform: uppercase;
+        }
+
+        .pricing-card.featured .pricing-title {
+            margin-top: 20px;
+        }
+
+        .pricing-title {
+            font-size: 24px;
+            font-weight: 700;
+            color: #333;
+            margin: 0 0 15px 0;
+        }
+
+        .pricing-price {
+            font-size: 36px;
+            font-weight: 800;
+            color: #007bff;
+            margin: 0 0 5px 0;
+            display: flex;
+            align-items: baseline;
+            justify-content: center;
+            gap: 5px;
+        }
+
+        .pricing-currency {
+            font-size: 20px;
+            font-weight: 600;
+        }
+
+        .pricing-period {
+            font-size: 14px;
+            color: #666;
+            margin-bottom: 25px;
+        }
+
+        .pricing-features {
+            list-style: none;
+            padding: 0;
+            margin: 0 0 30px 0;
+            text-align: left;
+        }
+
+        .pricing-features li {
+            padding: 12px 0;
+            border-bottom: 1px solid #f0f0f0;
+            color: #555;
+            position: relative;
+            padding-left: 25px;
+            font-size: 14px;
+            line-height: 1.4;
+        }
+
+        .pricing-features li:last-child {
+            border-bottom: none;
+        }
+
+        .pricing-features li::before {
+            content: "✓";
+            position: absolute;
+            left: 0;
+            color: #28a745;
+            font-weight: bold;
+            font-size: 16px;
+        }
+
+        .pricing-btn {
+            background: linear-gradient(135deg, #007bff, #0056b3);
+            color: white;
+            padding: 14px 30px;
+            border: none;
+            border-radius: 6px;
+            font-size: 16px;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            width: 100%;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+        }
+
+        .pricing-btn:hover {
+            background: linear-gradient(135deg, #0056b3, #004085);
+            transform: translateY(-2px);
+            box-shadow: 0 4px 15px rgba(0, 123, 255, 0.3);
+        }
+
+        .pricing-btn:active {
+            transform: translateY(0);
+        }
+
+        .pricing-btn:focus {
+            outline: none;
+            box-shadow: 0 0 0 3px rgba(0, 123, 255, 0.25);
+        }
+
+        /* Responsive Design */
+        @media (max-width: 768px) {
+            .pricing-card {
+                width: 100%;
+                max-width: 350px;
+                margin-bottom: 20px;
+            }
+            
+            .pricing-container {
+                flex-direction: column;
+                align-items: center;
+            }
+        }
+
+        @media (max-width: 480px) {
+            body {
+                padding: 10px;
+            }
+            
+            .pricing-card {
+                padding: 20px 15px;
+            }
+            
+            .pricing-title {
+                font-size: 20px;
+            }
+            
+            .pricing-price {
+                font-size: 28px;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="pricing-container">
+        <!-- Basic Plan -->
+        <div class="pricing-card">
+            <h2 class="pricing-title">Basic Plan</h2>
+            <div class="pricing-price">
+                <span class="pricing-currency">$</span>
+                <span>9.99</span>
+            </div>
+            <div class="pricing-period">/month</div>
+            
+            <ul class="pricing-features">
+                <li>1 GB Storage</li>
+                <li>Basic Support</li>
+                <li>All Core Features</li>
+                <li>Email Integration</li>
+                <li>Mobile App Access</li>
+            </ul>
+            
+            <button class="pricing-btn" onclick="handlePlanSelection('basic', 9.99)">Start Trial</button>
+        </div>
+
+        <!-- Pro Plan (Featured) -->
+        <div class="pricing-card featured">
+            <h2 class="pricing-title">Pro Plan</h2>
+            <div class="pricing-price">
+                <span class="pricing-currency">$</span>
+                <span>19.99</span>
+            </div>
+            <div class="pricing-period">/month</div>
+            
+            <ul class="pricing-features">
+                <li>10 GB Storage</li>
+                <li>Priority Support</li>
+                <li>All Core Features</li>
+                <li>Advanced Analytics</li>
+                <li>Team Collaboration</li>
+                <li>API Access</li>
+            </ul>
+            
+            <button class="pricing-btn" onclick="handlePlanSelection('pro', 19.99)">Start Trial</button>
+        </div>
+
+        <!-- Enterprise Plan -->
+        <div class="pricing-card">
+            <h2 class="pricing-title">Enterprise</h2>
+            <div class="pricing-price">
+                <span class="pricing-currency">$</span>
+                <span>49.99</span>
+            </div>
+            <div class="pricing-period">/month</div>
+            
+            <ul class="pricing-features">
+                <li>Unlimited Storage</li>
+                <li>24/7 Support</li>
+                <li>All Features</li>
+                <li>Custom Integrations</li>
+                <li>Advanced Security</li>
+                <li>Dedicated Manager</li>
+                <li>SLA Guarantee</li>
+            </ul>
+            
+            <button class="pricing-btn" onclick="handlePlanSelection('enterprise', 49.99)">Contact Sales</button>
+        </div>
+    </div>
+
+    <script>
+        function handlePlanSelection(planType, price) {
+            // Handle plan selection logic
+            console.log(`Selected plan: ${planType} at $${price}/month`);
+            
+            // You can add your own logic here:
+            // - Redirect to checkout
+            // - Open modal
+            // - Send analytics event
+            // - etc.
+            
+            alert(`You selected the ${planType.charAt(0).toUpperCase() + planType.slice(1)} plan ($${price}/month)`);
+        }
+
+        // Add click animation
+        document.addEventListener('DOMContentLoaded', function() {
+            const buttons = document.querySelectorAll('.pricing-btn');
+            
+            buttons.forEach(button => {
+                button.addEventListener('click', function(e) {
+                    // Create ripple effect
+                    const ripple = document.createElement('span');
+                    const rect = button.getBoundingClientRect();
+                    const size = Math.max(rect.width, rect.height);
+                    const x = e.clientX - rect.left - size / 2;
+                    const y = e.clientY - rect.top - size / 2;
+                    
+                    ripple.style.cssText = `
+                        position: absolute;
+                        width: ${size}px;
+                        height: ${size}px;
+                        left: ${x}px;
+                        top: ${y}px;
+                        background: rgba(255, 255, 255, 0.3);
+                        border-radius: 50%;
+                        transform: scale(0);
+                        animation: ripple 0.6s linear;
+                        pointer-events: none;
+                    `;
+                    
+                    button.style.position = 'relative';
+                    button.style.overflow = 'hidden';
+                    button.appendChild(ripple);
+                    
+                    setTimeout(() => {
+                        ripple.remove();
+                    }, 600);
+                });
+            });
+            
+            // Add CSS for ripple animation
+            const style = document.createElement('style');
+            style.textContent = `
+                @keyframes ripple {
+                    to {
+                        transform: scale(2);
+                        opacity: 0;
+                    }
+                }
+            `;
+            document.head.appendChild(style);
+        });
+    </script>
+</body>
+</html>
